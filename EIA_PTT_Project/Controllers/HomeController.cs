@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.IO;
+
 
 namespace EIA_PTT_Project.Controllers
 {
@@ -25,6 +27,25 @@ namespace EIA_PTT_Project.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Map()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Map(HttpPostedFileBase file)
+        {
+            if(file!= null && file.ContentLength > 0)
+            {
+                string fileName = Path.GetFileName(file.FileName);
+
+                string path = Path.Combine(Server.MapPath("/UploadedFiles"),fileName);
+                file.SaveAs(path);
+
+            }
+            return RedirectToAction("Map");
         }
     }
 }

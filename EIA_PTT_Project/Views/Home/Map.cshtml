@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Map";
+}
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMZECckInaZ44EAKBo6J6Fi1x4NWxjIPk&callback=initMap"
+            async defer></script>
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 600px;
+        }
+
+        #mappanel {
+            height: 50%;
+            width: 50%;
+            float: left;
+        }
+
+        #uploadfilepanel {
+            height: 50%;
+            width: 50%;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px 0 rgb(128, 128, 128);
+            transition: 0.3s;
+            width:
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+            }
+
+        .card2, .card3 {
+            box-shadow: 0 4px 8px 0 rgb(128, 128, 128);
+            transition: 0.3s;
+            width: 50%
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+
+    <br />
+    <div id="mappanel">
+        <div class="card">
+
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <div class="card2">
+        <div class="panel">
+            <ul>
+
+                <li>
+                    <input onClick="enable_layer(this)" type="checkbox" value="11"> ทางรถไฟ
+                </li>
+                <li>
+                    <input onClick="enable_layer(this)" type="checkbox" value="22"> โรงเรียน
+                </li>
+                <li>
+                    <input onClick="enable_layer(this)" type="checkbox" value="33"> หมู่บ้าน
+                </li>
+
+            </ul>
+            <div id="divResults"></div>
+        </div>
+    </div>
+
+    <br />
+    @using (Html.BeginForm("Map", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="file" />
+        <input type="submit" value="OK" />
+    }
+
+</body>
+<script>
+    var map;
+    var latlng = { lat: 13.7651624, lng: 100.893642 }
+    function initMap() {
+        map = new google.maps.Map(
+            document.getElementById('map'), {
+            center: latlng,
+            zoom: 6,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+    }
+
+    var kml = {
+        11: {
+            name: "AL_STA_ROW_CY_Sensitives.kmz",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/AL_STA_ROW_CY_Sensitives.kmz?raw=true"
+        },
+        22: {
+            name: "SCHOOL.kml",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/school.kmz?raw=true"
+        },
+        33: {
+            name: "village.kmz",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/village.kmz?raw=true"
+        }
+
+    };
+
+    var src = 'https://github.com/Naphatsanan1996/Test_KML/blob/master/AL_STA_ROW_CY_Sensitives.kmz?raw=true';
+
+
+    function enable_layer(e) {
+
+        var id = $(e).val();
+        if ($(e).is(":checked")) {
+
+            var kmlLayer = new google.maps.KmlLayer(kml[id].url, {
+                suppressInfoWindows: true,
+                preserveViewport: true
+            });
+            kml[id].obj = kmlLayer;
+            kml[id].obj.setMap(map);
+        } else {
+            console.log('close');
+            kml[id].obj.setMap(null);
+            delete kml[id].obj;
+
+        }
+    }
+
+
+
+
+</script>
+
