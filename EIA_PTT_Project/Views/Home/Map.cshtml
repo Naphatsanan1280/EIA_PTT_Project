@@ -33,41 +33,112 @@
             height: 50%;
             width: 50%;
         }
-
-        .card {
-            box-shadow: 0 4px 8px 0 rgb(128, 128, 128);
-            transition: 0.3s;
-            width:
+        .wrapper{
+            display: grid;
+            grid-template-columns: repeat(2, 2fr);
+            grid-gap: 10px;
+            grid-auto-rows: minmax(100px, auto);
         }
-
-            .card:hover {
-                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-            }
-
-        .card2, .card3 {
-            box-shadow: 0 4px 8px 0 rgb(128, 128, 128);
-            transition: 0.3s;
-            width: 50%
+        .map1{
+            grid-column: 1/3;
+            grid-row: 1 / 5;
+            background-color:aqua;
         }
-
-        .card:hover {
-            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        .chbox{
+            grid-column: 3;
+              grid-row: 1;
+               background-color:azure;
         }
+        .fileup{
+            grid-column: 3;
+            grid-row: 2;
+             background-color:beige;
+        }
+        .search{
+            grid-column:3;
+            grid-row:3;
+            background-color:aliceblue;
+        }
+        .searched{
+            text-align:center;
+        }
+        .result{
+            grid-column:3;
+            grid-row:4;
+            background-color:chocolate;
+        }
+        table, th, td {
+          border: 1px solid black;
+        }
+        
     </style>
 </head>
 <body>
 
-
-    <br />
-    <div id="mappanel">
-        <div class="card">
+    <h4 style="text-align:center;" > โครงการ EIA Regulatory Smart Screening System </h4>
+    
+    <div class="wrapper">
+        
+        <div class="map1">
 
             <div id="map"></div>
         </div>
-    </div>
 
-    <div class="card2">
-        <div class="panel">
+        <div class="search">
+            <h4>Search</h4>
+            <div class="searched">
+
+                <select id="Select1" style="width:40%">
+                    <option>ระบุที่ตั้ง</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <select id="Select1" style="width:40%">
+                    <option>ระบุที่ตั้ง</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <br />
+                <select id="Select2" style="width:40%">
+                    <option>โครงการ</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <select id="Select1" style="width:40%">
+                    <option>ระบุโครงการ</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <br />
+                <select id="Select3" style="width:40%">
+                    <option>เชื้อเพลิง</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <select id="Select1" style="width:40%">
+                    <option>ระบุเชื้อเพลิง</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <br />
+                <select id="Select4" style="width:40%">
+                    <option>ขนาด</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <select id="Select1" style="width:40%">
+                    <option>ระบุขนาด</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <br />
+                <select id="Select5" style="width:40%">
+                    <option>ความดัน</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <select id="Select1" style="width:40%">
+                    <option>ระบุความดัน</option>
+                    <option>กรุงเทพมหานคร</option>
+                </select>
+                <br />
+
+            </div>
+            
+        </div>
+
+        <div class="chbox">
             <ul>
 
                 <li>
@@ -83,15 +154,51 @@
             </ul>
             <div id="divResults"></div>
         </div>
+
+        <div class="fileup">
+            @using (Html.BeginForm("Map", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <input id="file" type="file" name="file" />
+                <input type="submit" value="OK" class="addrow" />
+            }
+        </div>
+
+        <div class="result" >
+            <h4 style="color:white;">แสดงผลข้อมูล</h4>
+            
+                <table align="center"style="background-color:white;">
+                    <tr>
+                        <th>
+                            ประเภทรายงาน
+                        </th>
+                        <th>
+                            EIA
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th>
+                            กฏหมายที่เกี่ยวข้อง
+                        </th>
+                        <th>
+                            ที่มาและ Link ข้อมูล
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th>
+                            หน่วยงาน
+                        </th>
+                        <th>
+                            หน่วยงาน
+                        </th>
+
+                    </tr>
+                </table>
+        </div>
+          
     </div>
-
-    <br />
-    @using (Html.BeginForm("Map", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <input type="file" name="file" />
-        <input type="submit" value="OK" />
-    }
-
+    
 </body>
 <script>
     var map;
@@ -102,6 +209,24 @@
             center: latlng,
             zoom: 6,
             mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        var drawingManager = new google.maps.drawing.DrawingManager({
+                drawingMode: google.maps.drawing.OverlayType.MARKER,
+                drawingControl: true,
+                drawingControlOptions: {
+                    position: google.maps.ControlPosition.TOP_CENTER,
+                    drawingModes: [ 'polygon', 'polyline']
+                },
+                markerOptions: { icon: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png' },
+                circleOptions: {
+                    fillColor: '#ffff00',
+                    fillOpacity: 1,
+                    strokeWeight: 5,
+                    clickable: false,
+                    editable: true,
+                    zIndex: 1
+                }
         });
     }
 
@@ -123,7 +248,6 @@
 
     var src = 'https://github.com/Naphatsanan1996/Test_KML/blob/master/AL_STA_ROW_CY_Sensitives.kmz?raw=true';
 
-
     function enable_layer(e) {
 
         var id = $(e).val();
@@ -139,12 +263,30 @@
             console.log('close');
             kml[id].obj.setMap(null);
             delete kml[id].obj;
-
         }
     }
+    
+        $(document).ready(function () { 
+             $(".addrow").click(function () {
+                    var name = $("#file").val();
+        
+                    var markup = "<ul><li><input type='checkbox' name='record'>" + name + "</li></ul>"
 
+                    $("#divResults").append(markup);
+             });
+        });
 
-
-
-</script>
+    function getmap() {  
+            var completeaddress = document.getElementById('Select2').value;  
+            mapcode.geocode({ 'address': completeaddress }, function (results, status) {  
+                if (status == google.maps.GeocoderStatus.OK) {  
+                    diag.setCenter(results[0].geometry.location);  
+                      
+                } else {  
+                    alert('Location Not Tracked. ' + status);  
+                }  
+            });  
+        }  
+        google.maps.event.addDomListener(window, 'load', init);  
+    </script>
 

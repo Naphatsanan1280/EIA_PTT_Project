@@ -5,6 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 
+using iTextSharp.text;
+using iTextSharp.text.html.simpleparser;
+using iTextSharp.text.pdf;
+
 
 namespace EIA_PTT_Project.Controllers
 {
@@ -40,12 +44,15 @@ namespace EIA_PTT_Project.Controllers
             if(file!= null && file.ContentLength > 0)
             {
                 string fileName = Path.GetFileName(file.FileName);
-
                 string path = Path.Combine(Server.MapPath("/UploadedFiles"),fileName);
                 file.SaveAs(path);
-
             }
+            
             return RedirectToAction("Map");
         }
+
+       
+       
+
     }
 }
