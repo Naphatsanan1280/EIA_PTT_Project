@@ -5,10 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using System.IO;
 
-using iTextSharp.text;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
-
 
 namespace EIA_PTT_Project.Controllers
 {
@@ -35,6 +31,8 @@ namespace EIA_PTT_Project.Controllers
 
         public ActionResult Map()
         {
+
+
             return View();
         }
 
