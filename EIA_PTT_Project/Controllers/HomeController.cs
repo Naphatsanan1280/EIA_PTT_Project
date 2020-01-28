@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
-
+using Rotativa;
 
 namespace EIA_PTT_Project.Controllers
 {
@@ -49,7 +49,22 @@ namespace EIA_PTT_Project.Controllers
             return RedirectToAction("Map");
         }
 
-       
+       public ActionResult Getsample()
+        {
+           
+            return View();
+        }
+
+        public ActionResult Print()
+        {
+            DateTime datetime = DateTime.Now;
+            datetime.ToString("MM/dd/yyyy HH:mm");
+            return new ActionAsPdf("Map", new { nombre = "Pedrito" })
+            {
+             
+                FileName = "EIA"+ datetime + ".pdf"
+            };
+        }
        
 
     }
