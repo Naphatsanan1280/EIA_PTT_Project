@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Rotativa;
+using System;
+using System.IO;
 using System.Web;
 using System.Web.Mvc;
-using System.IO;
-using Rotativa;
 
 namespace EIA_PTT_Project.Controllers
 {
@@ -39,19 +37,19 @@ namespace EIA_PTT_Project.Controllers
         [HttpPost]
         public ActionResult Map(HttpPostedFileBase file)
         {
-            if(file!= null && file.ContentLength > 0)
+            if (file != null && file.ContentLength > 0)
             {
                 string fileName = Path.GetFileName(file.FileName);
-                string path = Path.Combine(Server.MapPath("/UploadedFiles"),fileName);
+                string path = Path.Combine(Server.MapPath("/UploadedFiles"), fileName);
                 file.SaveAs(path);
             }
-            
+
             return RedirectToAction("Map");
         }
 
-       public ActionResult Getsample()
+        public ActionResult Getsample()
         {
-           
+
             return View();
         }
 
@@ -59,13 +57,13 @@ namespace EIA_PTT_Project.Controllers
         {
             DateTime datetime = DateTime.Now;
             datetime.ToString("MM/dd/yyyy HH:mm");
-            return new ActionAsPdf("Map", new { nombre = "Pedrito" })
+            return new ActionAsPdf("Getsample", new { nombre = "Pedrito" })
             {
-             
-                FileName = "EIA"+ datetime + ".pdf"
+                FileName = "EIA" + datetime + ".pdf"
             };
         }
-       
+
+
 
     }
 }

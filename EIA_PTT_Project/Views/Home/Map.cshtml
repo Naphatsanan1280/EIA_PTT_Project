@@ -8,7 +8,8 @@
         <script src="~/Scripts/jquery-3.3.1.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCMZECckInaZ44EAKBo6J6Fi1x4NWxjIPk&callback=initMap"
                 async defer></script>
-
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd33TLAVehao--qEJ9u7j7ZNSjN1315C0&callback=initMap"
+                async defer></script>
         
         <style>
 
@@ -22,10 +23,11 @@
 
             #map {
                 width: 100%;
-                height: 600px;
+                height:100%;
             }
 
             #mappanel {
+                margin-top:100px;
                 height: 50%;
                 width: 50%;
                 float: left;
@@ -36,219 +38,458 @@
                 width: 50%;
             }
 
-            .wrapper {
+            .wrapper  {
                 display: grid;
                 grid-template-columns: repeat(2, 2fr);
                 grid-gap: 10px;
                 grid-auto-rows: minmax(100px, auto);
             }
+          
 
             .map1 {
-                grid-column: 1/3;
-                grid-row: 1 / 5;
-                background-color: aqua;
+                grid-column: 2;
+                grid-row: 1/3 ;
+                
             }
 
-            .chbox {
-                grid-column: 3;
-                grid-row: 1;
-                background-color: azure;
-            }
-
-            .fileup {
-                grid-column: 3;
-                grid-row: 2;
-                background-color: beige;
-            }
+            
 
             .search {
-                grid-column: 3;
-                grid-row: 3;
-                background-color: aliceblue;
+                grid-column: 1;
+                grid-row: 1/3;
+                background-color: white;
+                border:solid 0.5px;
+                padding:10px;
+
             }
 
             .searched {
                 text-align: center;
             }
 
-            .result {
+            #typeProject {
                 grid-column: 3;
-                grid-row: 4;
-                background-color: chocolate;
+                grid-row: 1/3;
+                background-color:white;
+                 border:solid 0.5px;
+                padding:10px;
+                display:block;
+                border-radius:3px;
             }
-
+            #resultss{
+                 grid-column: 3;
+                grid-row: 4;
+                background-color: #fff;
+                padding:10px;
+                display:none;
+                 
+            }
             table, th, td {
                 border: 1px solid black;
             }
+            
+           
+            button.accordion{
+                  cursor:pointer;
+                border:none;
+                outline:none;
+                width:100%;
+                text-align:center;
+              color:#000;
+              padding:5px;
+              margin:4px 0;
+              border-radius:4px;
+            }
+             button.process{
+                cursor:pointer;
+                border:none;
+                outline:none;
+                width:100%;
+                text-align:center;
+              color:#000;
+              padding:5px;
+              margin:4px 0;
+              border-radius:4px;
+             
+            }
+           
+            div.panel{
+              background-color:rgba(255,255,255,0.3);
+              color:#000;
+              border-radius:0 0 4px 4px;
+              overflow:hidden;
+              opacity:0;
+              max-height:0;
+              transition:0.3s;
+              padding:0 8px;
+              margin:0;
+            }
+
+            div.panel.show{
+              opacity:1;
+              max-height:500px;
+              padding:8px;
+              margin:2px 0 4px;
+            }
+            th{
+               text-align:center;
+               background-color:lightgray;
+            }
+
+            #area{
+                padding:10px;
+                margin:1px;
+                border:solid 1px; 
+                border-radius:3px;
+                display:block;
+            }
+            #coordinates{
+                padding:10px;
+                margin:1px;
+                border:solid 1px; 
+                border-radius:3px;
+                 display:block;
+            }
+            #positionformfile{
+                padding:10px;
+                margin:1px;
+                border:solid 1px; 
+                border-radius:3px;
+                display:block;
+            }
+            #usercostom{
+                padding:10px;
+                margin:1px;
+                border:solid 1px; 
+                border-radius:3px;
+                display:block;
+            }
+            select{
+                width:100%;
+                float:right;
+                margin:5px;
+            }
+            #labell {
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: flex-start;
+                  text-align: right;
+                  width: 400px;
+                  line-height: 26px;
+                  margin-bottom: 10px;
+                }
+
+            #labelt {
+              height: 20px;
+              flex: 0 0 200px;
+              margin-left: 10px;
+            }
+
         </style>
     </head>
-<body>
+    <body>
 
-    <h4 style="text-align:center;" > โครงการ EIA Regulatory Smart Screening System </h4>
-    
-    <div class="wrapper">
-        
-        <div class="map1">
+        <h4 style="text-align:center;"> โครงการ EIA Regulatory Smart Screening System </h4>
 
-            <div id="map"></div>
-        </div>
+        <div class="wrapper">
 
-        <div class="search">
-            <h4>Search</h4>
-            <div class="searched">
+            <div class="map1">
 
-                <select id="Select1" style="width:40%">
-                    <option>ระบุที่ตั้ง</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <select id="Select1" style="width:40%">
-                    <option>ระบุที่ตั้ง</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <br />
-                <select id="Select2" style="width:40%">
-                    <option>โครงการ</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <select id="Select1" style="width:40%">
-                    <option>ระบุโครงการ</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <br />
-                <select id="Select3" style="width:40%">
-                    <option>เชื้อเพลิง</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <select id="Select1" style="width:40%">
-                    <option>ระบุเชื้อเพลิง</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <br />
-                <select id="Select4" style="width:40%">
-                    <option>ขนาด</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <select id="Select1" style="width:40%">
-                    <option>ระบุขนาด</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <br />
-                <select id="Select5" style="width:40%">
-                    <option>ความดัน</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <select id="Select1" style="width:40%">
-                    <option>ระบุความดัน</option>
-                    <option>กรุงเทพมหานคร</option>
-                </select>
-                <br />
+                <div id="map"></div>
+            </div>
+
+            <div class="search">
+                <h4>ระบุที่ตั้งโครงการ</h4>
+                <!--  <form>
+            <button onclick="showarea()">พื้นที่</button>
+            <br />
+            <button onclick="showrcoordinates()">พิกัดทางภูมิศาสตร์</button> <br />
+            <button onclick="showrpositionformfile()">ตำแหน่งจากข้อมูล kmz </button> <br />
+            <button onclick="showrusercostom()">กำหนดเอง</button> <br />
+
+        </form>-->
+
+                <div id="menuarea">
+                    <button class="accordion">พื้นที่</button>
+                    <div id="area" class="panel">
+                        <h5>พื้นที่</h5>
+                        <select>
+                            <option>จังหวัด</option>
+                        </select>
+                        <br />
+                        <select>
+                            <option>อำเภอ</option>
+                        </select>
+                        <br />
+                        <select>
+                            <option>ตำบล</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <button class="accordion">พิกัดทางภูมิศาสตร์</button>
+                    <div id="coordinates" class="panel">
+                        <h5>พิกัดทางภูมิศาสตร์</h5>
+                        <label id="labell">
+                            ละติจูด <input id="labelt" type="text" placeholder="-ละติจูด-" />
+                        </label>
+
+                        <label id="labell">
+                            ลองจิจูด <input id="labelt" type="text" placeholder="-ลองจิจูด-" />
+
+                        </label>
+                       <button class="btn btn-primary" style="width:100%;margin-top:5px;">ตกลง</button>
+</div>
+
+                    <button class="accordion">ตำแหน่งจากข้อมูล kmz</button>
+                    <div id="positionformfile" class="panel">
+                        <h5>ตำแหน่งจากข้อมูล KMZ ไฟล์</h5>
+                        @using (Html.BeginForm("Map", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="file" id="file" style="display:none;" />
+                            <button class="btn btn-primary" id="button" name="button" value="Upload" onclick="thisFileUpload();">Import KMZ</button>
+                            <h5>เลือกตำแหน่งโครงการ</h5>
+                            <input type="text" />
+                        }
+                        <div id="chbox">
+                            <h5 style="text-align:center;"> KMZ FILE </h5>
+                            <ul>
+                                <li>
+                                    <input onClick="enable_layer(this)" type="checkbox" value="11"> Industrial_Estate_boundary.kmz
+                                </li>
+                                <li>
+                                    <input onClick="enable_layer(this)" type="checkbox" value="22"> National_Park.kmz
+                                </li>
+                                <li>
+                                    <input onClick="enable_layer(this)" type="checkbox" value="33"> National_Reserved_Forest.kmz
+                                </li>
+
+                            </ul>
+                            <div id="divResults">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="accordion">กำหนดเอง</button>
+                    <div id="usercostom" class="panel">
+                        <h5>กำหนดเอง</h5>
+                        <button>mark</button>
+                        <button>line/polygon</button>
+                        <h5>เลือกตำแหน่งโครงการ</h5>
+                        <input type="text" />
+
+                    </div>
+
+                </div>
+
+
+
 
             </div>
-            
+
+            <!--   <div class="fileup">
+
+      <input id="Text1" type="text" />
+      <input id="Button1" type="button" value="ค้นหาสถานที่" onclick="getmap()"  />
+      </div>  -->
+
+
+            <div id="typeProject">
+                <label>ประเภทโครงการ</label>
+                <br />
+                <select id="Select4">
+                    <option>เลือกประเภทโครงการ</option>
+                    <option>ก๊าซธรรมชาติ(NG)</option>
+                    <option>ก๊าซธรรมชาติเหลว(NGL)</option>
+                    <option>ก๊าซปิโตเลียมเหลว(LPG)</option>
+                    <option>น้ำมัน</option>
+                    <option>สารประกอบไฮโดรคาร์บอนอื่นๆ</option>
+                </select>
+                <br />
+                <label>รูปแบบ</label>
+                <br />
+                <select id="Select4">
+                    <option>เลือกรูปแบบ</option>
+                    <option>ไอก๊าซ</option>
+                    <option>ของเหลว</option>
+                </select>
+
+                <button class="accordion">ตกลง</button>
+
+                <div class="panel">
+                    <label style="font-size:12px;">ความดันใช้งานสูงสุด(MOP/bar)</label>
+                    <input type="text" style="width:40%; float:right;" /><br />
+                    <label style="font-size:12px;">ขนาดท่อ(/inches)</label>
+                    <input type="text" style="width:40%; float:right;" /><br />
+                    <button class="accordion" style="height:30px; width:100%;">ประมวลผล</button>
+
+                    <div id="resultss">
+                        <button onclick="showresult()">
+                            ย้อนกลับ
+                        </button>
+                        <br />
+                        <label><u style="margin-left:10px; ">สรุปผล</u></label>
+                        <br />
+                        <label style="margin-left:10px; ">ต้องทำรายงาน</label>
+                        <label style="margin-left:10px; ">EHIA</label>  <br />
+                        <label style="margin-left:10px; ">กฎหมายที่เกี่ยวข้อง</label>
+                        <label style="margin-left:10px; ">ที่มาและ link ข้อมูล</label>  <br />
+                        <table style="width:100%; text-align:center;">
+                            <tr>
+                                <th>ชื่อใบอนุญาติ</th>
+                                <th>หน่วยงานผู้ให้อนุญาติ</th>
+                            </tr>
+                            <tr>
+                                <td>ใบอนุญาติ ก.</td>
+                                <td>หน่วยงาน ก.</td>
+                            </tr>
+                            <tr>
+                                <td>ใบอนุญาติ ข.</td>
+                                <td>หน่วยงาน ข.</td>
+                            </tr>
+                        </table>
+
+                        <button onclick="location.href='@Url.Action("print","home")'"
+                                style="cursor:pointer;
+                        border:none;
+                        outline:none;
+                        float:right;
+                        width:30%;
+                        text-align:center;
+                          color:#000;
+                          padding:5px;
+                          margin:15px;
+                          border-radius:8px;">
+                            Export JPEC
+                        </button>
+                        <button onclick="location.href='@Url.Action("print","home")'"
+                                style="cursor:pointer;
+                        border:none;
+                        outline:none;
+                        float:right;
+                        width:30%;
+                        text-align:center;
+                          color:#000;
+                          padding:5px;
+                          margin:15px;
+                          border-radius:8px;">
+                            Export PDF
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="chbox">
-            <ul>
-
-                <li>
-                    <input onClick="enable_layer(this)" type="checkbox" value="11"> ทางรถไฟ
-                </li>
-                <li>
-                    <input onClick="enable_layer(this)" type="checkbox" value="22"> โรงเรียน
-                </li>
-                <li>
-                    <input onClick="enable_layer(this)" type="checkbox" value="33"> หมู่บ้าน
-                </li>
-
-            </ul>
-            <div id="divResults"></div>
-        </div>
-
-        <div class="fileup">
-            @using (Html.BeginForm("Map", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <input id="file" type="file" name="file" />
-                <input type="submit" value="OK" class="addrow"  />
-               
+        <script>
+            var accordions = document.querySelectorAll("button.accordion");
+            for (var i = 0; i < accordions.length; i++) {
+              accordions[i].onclick = function() {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+              };
             }
-        </div>
 
-        <div class="result" >
-            <h4 style="color:white; margin-left:7px; " >แสดงผลข้อมูล</h4>
+            function closeAll() {
+              for (var i = 0; i < accordions.length; i++) {
+                accordions[i].classList.remove("active");
+                accordions[i].nextElementSibling.classList.remove("show");
+              }
+            }
+
+          function showresult() {
+                var x = document.getElementById("resultss");
+               
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                  
+                  } else {
+                    x.style.display = "none";
+                  
+                  }
+            }
+             /*function showarea() {
+                var x = document.getElementById("chbox");
+               
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                  
+                  } else {
+                    x.style.display = "none";
+                  
+                  }
+            }*/
             
-                <table align="center"style="background-color:white;">
-                    <tr>
-                        <th>
-                            ประเภทรายงาน
-                        </th>
-                        <th>
-                            EIA
-                        </th>
 
-                    </tr>
-                    <tr>
-                        <th>
-                            กฏหมายที่เกี่ยวข้อง
-                        </th>
-                        <th>
-                            ที่มาและ Link ข้อมูล
-                        </th>
+            
 
-                    </tr>
-                    <tr>
-                        <th>
-                            หน่วยงาน
-                        </th>
-                        <th>
-                            หน่วยงาน
-                        </th>
 
-                    </tr>
-                </table>
-        </div>
-          
-    </div>
-    
-</body>
+        </script>
+    </body>
 <script>
     var map;
     var mapcode;
     var latlng = { lat: 13.7651624, lng: 100.893642 }
+  var infowindow;
     function initMap() {
-
+        mapcode = new google.maps.Geocoder();  
         map = new google.maps.Map(
             document.getElementById('map'), {
             center: latlng,
             zoom: 6,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
- 
     }
-
+    function getmap() {  
+            var completeaddress = document.getElementById('Text1').value;  
+            mapcode.geocode({ 'address': completeaddress }, function (results, status) {  
+                if (status == google.maps.GeocoderStatus.OK) {  
+                    map.setCenter(results[0].geometry.location);  
+                   /* var hint = new google.maps.Marker({  
+                        map: map,  
+                        position: results[0].geometry.location  
+                    });*/  
+                } else {  
+                    alert('Location Not Tracked. ' + status);  
+                }  
+            });  
+        }  
+    google.maps.event.addDomListener(window, 'load', initMap);  
+    
     var kml = {
         11: {
-            name: "AL_STA_ROW_CY_Sensitives.kmz",
-            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/AL_STA_ROW_CY_Sensitives.kmz?raw=true"
+            name: "Industrial_Estate_boundary.kmz",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/Industrial_Estate_boundary.kmz?raw=true"
         },
         22: {
-            name: "SCHOOL.kml",
-            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/school.kmz?raw=true"
+            name: "National_Park.kmz",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/National_Park.kmz?raw=true"
         },
         33: {
-            name: "village.kmz",
-            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/village.kmz?raw=true"
+            name: "National_Reserved_Forest.kmz",
+            url: " https://github.com/Naphatsanan1280/Kmlfile/blob/master/National_Reserved_Forest.kmz?raw=true"
         }
     };
-
     var src = 'https://github.com/Naphatsanan1996/Test_KML/blob/master/AL_STA_ROW_CY_Sensitives.kmz?raw=true';
-
     function enable_layer(e) {
+        var kmlLayer;
         var id = $(e).val();
         if ($(e).is(":checked")) {
-            var kmlLayer = new google.maps.KmlLayer(kml[id].url, {
+            kmlLayer = new google.maps.KmlLayer(kml[id].url, {
                 suppressInfoWindows: true,
                 preserveViewport: true
             });
+            kmlLayer.addListener('click', function (kmlEvent) {
+                var text = kmlEvent.featureData.description;
+
+         showInContentWindow(text);
+        });
+
+        function showInContentWindow(text) {
+         var sidediv = document.getElementById('divResults');
+        sidediv.innerHTML = text;
+         }
             kml[id].obj = kmlLayer;
             kml[id].obj.setMap(map);
         } else {
@@ -257,16 +498,17 @@
             delete kml[id].obj;
         }
     }
-    
         $(document).ready(function () { 
              $(".addrow").click(function () {
                     var name = $("#file").val();
-        
                     var markup = "<ul><li><input type='checkbox' name='record'>" + name + "</li></ul>"
-
-                    $("#divResults").append(markup);
+             $("#divResults").append(markup);
              });
         });
 
-    </script>
+      function thisFileUpload() {
+          document.getElementById("file").click();
+          
+        };
 
+    </script>
